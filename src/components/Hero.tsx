@@ -85,24 +85,25 @@ export function Hero() {
           ))}
         </h1>
         <p data-f className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-          WhatsApp automation, websites and mobile apps, DevOps, CRM integration and technology advisory,
-          delivered by one team for brands like Kout Food Group, Burger King and the European Union Agency for
-          Asylum.
+          WhatsApp business solutions, practical AI, CRM and customer engagement, and the DevOps behind your websites
+          and apps, delivered by one team for brands like Kout Food Group, Burger King and the European Union Agency
+          for Asylum.
         </p>
         <div data-f className="mt-10 flex flex-wrap gap-3">
           <Link href="/contact" className="btn btn-primary">
             Start a project <span aria-hidden="true">→</span>
           </Link>
-          <Link href="/services" className="btn btn-ghost">
-            Explore services
+          <Link href="/expertise" className="btn btn-ghost">
+            Our expertise
           </Link>
           <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
             WhatsApp us
           </a>
         </div>
 
-        <dl data-f className="mt-16 grid max-w-xl grid-cols-3 gap-6 border-t border-line pt-6">
+        <dl data-f className="mt-16 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4 border-t border-line pt-6">
           {[
+            ["4", "core specializations"],
             ["14", "services"],
             ["15", "client brands"],
             [`${site.founded}`, "founded"],

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
-import { ServicePillars } from "@/components/ServicePillars";
+import { ServiceIndex } from "@/components/ServiceIndex";
 import { CtaBand } from "@/components/CtaBand";
 import { pillars } from "@/lib/services";
 
@@ -15,7 +15,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageHeader eyebrow="Services" title={<>Everything between idea and <span className="grad-text">uptime.</span></>}>
-        Fourteen services across five areas, from WhatsApp automation to cloud operations.
+        Fourteen services across five areas. Open any service to see what we provide, typical use cases, where AI can help and the business value.
       </PageHeader>
       <nav aria-label="Service areas" className="container-x mb-20 flex flex-wrap gap-2">
         {pillars.map((p) => (
@@ -25,7 +25,7 @@ export default function ServicesPage() {
         ))}
       </nav>
       <div className="container-x">
-        <ServicePillars />
+        <ServiceIndex />
       </div>
       <div className="pt-32">
         <CtaBand />

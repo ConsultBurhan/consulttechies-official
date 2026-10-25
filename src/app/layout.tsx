@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://consulttechies.io"),
   title: { default: `${site.name} — Software, automation & cloud`, template: `%s · ${site.name}` },
   description:
-    "WhatsApp automation, web and mobile apps, DevOps, CRM integration and IT consulting for businesses in Kuwait, Europe and beyond. Teams in Udaipur and Austin.",
+    "WhatsApp business solutions, AI products and services, CRM and customer engagement, DevOps, web and mobile apps and IT consulting for businesses in Kuwait, Europe and beyond. Teams in Udaipur and Austin.",
   openGraph: { siteName: site.name, type: "website" },
   icons: { icon: "/Loader.svg" },
 };

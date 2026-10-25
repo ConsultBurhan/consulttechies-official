@@ -27,6 +27,7 @@ export const whatsappLink = (text = "Hi, I'd like to talk about a project.") =>
   `https://wa.me/${site.phone.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
 
 export const nav = [
+  { href: "/expertise", label: "Expertise" },
   { href: "/services", label: "Services" },
   { href: "/clients", label: "Clients" },
   { href: "/contact", label: "Contact" },
