@@ -19,16 +19,23 @@ function Logo({ className }: { className: string }) {
   );
 }
 
-/** Floating glass pill: wide at the top of the page, condenses on scroll, relaxes on hover. */
+/** Floating glass pill: collapses when scrolling down, expands when scrolling up or at the top. */
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [hover, setHover] = useState(false);
+  const [condensedByScroll, setCondensed] = useState(false);
 
+  // Collapse while scrolling down, expand as soon as the user scrolls up or reaches the top.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const dy = y - last;
+      if (y < 40) setCondensed(false);
+      else if (dy > 6) setCondensed(true);
+      else if (dy < -6) setCondensed(false);
+      if (Math.abs(dy) > 6) last = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -39,20 +46,16 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const condensed = scrolled && !hover && !open;
+  const condensed = condensedByScroll && !open;
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-50 flex flex-col items-center px-3 md:top-4">
       <div
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onFocus={() => setHover(true)}
-        onBlur={() => setHover(false)}
-        className="drop pointer-events-auto flex items-center justify-between rounded-full py-1.5 pl-5 pr-1.5 transition-[width,padding,box-shadow] duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+        className="drop pointer-events-auto flex items-center justify-between rounded-full py-1.5 pl-5 pr-1.5 transition-[width,padding,box-shadow] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
         style={{ width: condensed ? "min(840px, 100%)" : "min(1240px, 100%)", backgroundColor: "color-mix(in srgb, var(--ink) 62%, transparent)" }}
       >
         <Link href="/" aria-label="Babji Consult Techies, home" onClick={() => setOpen(false)}>
-          <Logo className={`w-auto transition-all duration-500 ${condensed ? "h-7" : "h-9"}`} />
+          <Logo className={`w-auto transition-all duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] ${condensed ? "h-7" : "h-9"}`} />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
@@ -71,7 +74,7 @@ export function Nav() {
           })}
           <ThemeToggle className="mx-1" />
           <Link href="/contact" className="btn btn-primary !min-h-10 !px-5 !text-sm">
-            {condensed ? "Contact" : "Start a project"}
+            Start a project
           </Link>
         </nav>
 
@@ -98,9 +101,7 @@ export function Nav() {
         className="glass pointer-events-auto mt-2 w-full max-w-[1240px] rounded-[2rem] px-6 py-4 md:hidden"
       >
         <ul className="display text-3xl">
-          {[{ href: "/", label: "Home" }, ...nav, { href: "/contact", label: "Contact" }]
-            .filter((x, i, a) => a.findIndex((y) => y.href === x.href) === i)
-            .map((item) => (
+          {[{ href: "/", label: "Home" }, ...nav].map((item) => (
               <li key={item.href} className="border-b border-line py-3 last:border-0">
                 <Link href={item.href} onClick={() => setOpen(false)} className="block">
                   {item.label}

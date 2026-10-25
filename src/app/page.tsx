@@ -1,74 +1,41 @@
-import Link from "next/link";
+import { PageTransition } from "@/components/PageTransition";
 import { Hero } from "@/components/Hero";
 import { ClientMarquee } from "@/components/ClientMarquee";
-import { TextReveal } from "@/components/TextReveal";
-import { SpecStage } from "@/components/SpecStage";
-import { WhatsAppSection, AiSection, CrmSection, DevopsSection, Pairings, ResponsibleBand } from "@/components/HomeSections";
-import { DeliveryTimeline } from "@/components/DeliveryTimeline";
+import { AreaBento } from "@/components/AreaBento";
+import { AiControls, Combos, Process } from "@/components/HomeSections";
+import { WhatsAppCase } from "@/components/WhatsAppCase";
+import { ContextCase } from "@/components/ContextCase";
 import { CtaBand } from "@/components/CtaBand";
 import { Reveal } from "@/components/Reveal";
-import { pillars } from "@/lib/services";
 
 export default function Home() {
   return (
+    <PageTransition>
     <>
       <Hero />
       <ClientMarquee />
 
-      <section className="container-x pt-32 md:pt-44" aria-label="Who we are">
-        <p className="eyebrow mb-6">What we do</p>
-        <TextReveal
-          className="display max-w-[26ch] text-[clamp(1.9rem,4.6vw,4rem)] !leading-[1.1] !tracking-[-0.03em]"
-          text="We help businesses engage customers, use their information, manage relationships and run their digital platforms."
-          marks={["engage", "customers", "digital", "platforms"]}
-        />
-      </section>
-
-      <div className="pt-32 md:pt-44" id="specializations">
-        <SpecStage />
-      </div>
-
-      <WhatsAppSection />
-      <AiSection />
-      <CrmSection />
-      <DevopsSection />
-      <Pairings />
-
-      <section className="container-x pt-40" aria-labelledby="all-h">
-        <div className="grid gap-10 md:grid-cols-[minmax(0,380px)_1fr] md:gap-20">
-          <Reveal>
-            <p className="eyebrow mb-4">The full catalogue</p>
-            <h2 id="all-h" className="display text-[clamp(2.2rem,4.4vw,3.8rem)]">
-              Fourteen services, <span className="grad-text">one accountable team.</span>
-            </h2>
-            <Link href="/services" className="btn btn-ghost mt-8">See service details →</Link>
+      <section id="areas" className="sec scroll-mt-20" aria-labelledby="areas-h">
+        <div className="container-x">
+          <Reveal className="mb-14 grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
+            <h2 id="areas-h" className="display t-h2 max-w-[15ch]">Four specializations, one connected team.</h2>
+            <p className="lede max-w-md md:justify-self-end">
+              Deliver one focused service, or connect them: a WhatsApp journey that reads the enquiry with AI, updates your
+              CRM and runs on infrastructure we maintain.
+            </p>
           </Reveal>
-          <Reveal as="ul" stagger className="border-t border-line">
-            {pillars.map((p) => (
-              <li key={p.key} className="border-b border-line">
-                <Link href={`/services#${p.key}`} className="group grid items-baseline gap-2 py-5 sm:grid-cols-[3rem_1fr_auto] sm:gap-6">
-                  <span className="eyebrow" style={{ color: p.accent }}>{p.n}</span>
-                  <span>
-                    <span className="display block text-2xl transition-transform duration-500 group-hover:translate-x-2">{p.title}</span>
-                    <span className="mt-1 block text-sm text-muted">{p.services.map((s) => s.title.replace(/ \(.*\)/, "")).join(" · ")}</span>
-                  </span>
-                  <span className="eyebrow">{p.services.length} services</span>
-                </Link>
-              </li>
-            ))}
-          </Reveal>
+          <AreaBento />
         </div>
       </section>
 
-      <section className="container-x pt-40" aria-label="Delivery process">
-        <DeliveryTimeline />
-      </section>
+      <Combos />
 
-      <ResponsibleBand />
-
-      <div className="pt-40">
-        <CtaBand />
-      </div>
+      <WhatsAppCase />
+      <ContextCase />
+      <AiControls />
+      <Process />
+      <CtaBand />
     </>
+    </PageTransition>
   );
 }

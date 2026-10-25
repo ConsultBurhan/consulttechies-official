@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/PageTransition";
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { OfficeClock } from "@/components/OfficeClocks";
@@ -17,12 +18,13 @@ const channels = [
 /** Split screen: who and where on the left (pinned), a short stepped form on the right. */
 export default function ContactPage() {
   return (
+    <PageTransition>
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <section className="relative px-[max(1.5rem,calc((100vw-1240px)/2))] pb-16 pt-36 lg:pr-12" aria-labelledby="contact-h">
         <div className="lg:sticky lg:top-32">
           <p className="eyebrow mb-5">Contact</p>
-          <h1 id="contact-h" className="display text-[clamp(2.8rem,6vw,5.4rem)]">
-            Start with <span className="grad-text">a conversation.</span>
+          <h1 id="contact-h" className="display t-hero">
+            Start with a conversation.
           </h1>
 
           <ul className="mt-12 border-t border-line">
@@ -63,5 +65,6 @@ export default function ContactPage() {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 }

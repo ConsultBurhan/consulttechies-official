@@ -2,29 +2,48 @@ import Link from "next/link";
 import { Reveal } from "./Reveal";
 import { site, whatsappLink } from "@/lib/site";
 
+const options = [
+  { label: "Message us on WhatsApp", sub: "Usually the fastest reply", href: whatsappLink(), external: true },
+  { label: site.email, sub: "For briefs and documents", href: `mailto:${site.email}` },
+  { label: site.phoneDisplay, sub: "Udaipur, India", href: `tel:${site.phone}` },
+];
+
+/** Closing section: one statement, then the ways to reach us. */
 export function CtaBand() {
   return (
-    <Reveal as="section" className="container-x">
-      <div className="relative overflow-hidden glass rounded-[2.5rem] px-6 py-16 text-center md:px-16 md:py-24">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-70"
-          style={{ background: "radial-gradient(50% 80% at 50% 120%, rgb(241 127 42 / .35), transparent 70%), radial-gradient(40% 60% at 90% -10%, rgb(29 188 191 / .25), transparent 70%)" }}
-        />
-        <div className="relative">
-          <h2 className="display mx-auto max-w-[16ch] text-[clamp(2.2rem,6vw,4.8rem)]">
+    <section className="sec relative overflow-hidden border-t border-line" aria-labelledby="cta-h">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{ background: "radial-gradient(45% 70% at 0% 100%, color-mix(in srgb, var(--orange) 14%, transparent), transparent 70%)" }}
+      />
+      <div className="container-x grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-20">
+        <Reveal>
+          <h2 id="cta-h" className="display t-hero max-w-[12ch]">
             Tell us what you want to <span className="grad-text">move forward.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-muted">
-            A website, a WhatsApp flow, a stuck integration or a technology decision. Start with a conversation.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/contact" className="btn btn-primary">Start a project →</Link>
-            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">WhatsApp</a>
-            <a href={`mailto:${site.email}`} className="btn btn-ghost">{site.email}</a>
-          </div>
-        </div>
+          <Link href="/contact" className="btn btn-primary mt-10">
+            Start a project <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+        <Reveal as="ul" delay={0.1} className="border-t border-line">
+          {options.map((o) => (
+            <li key={o.label} className="border-b border-line">
+              <a
+                href={o.href}
+                {...(o.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="group flex items-center justify-between gap-4 py-5"
+              >
+                <span>
+                  <span className="block font-semibold transition-colors group-hover:text-orange">{o.label}</span>
+                  <span className="mt-0.5 block text-sm text-muted">{o.sub}</span>
+                </span>
+                <span aria-hidden="true" className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-text">→</span>
+              </a>
+            </li>
+          ))}
+        </Reveal>
       </div>
-    </Reveal>
+    </section>
   );
 }

@@ -1,70 +1,145 @@
-import { pillars } from "@/lib/services";
-import { serviceDetails } from "@/lib/service-details";
-import { Reveal } from "./Reveal";
+"use client";
 
-/** Services as an expandable index: scan the list, open what matters. */
-export function ServiceIndex() {
-  let count = 0;
-  return (
-    <div className="space-y-28">
-      {pillars.map((p) => (
-        <section key={p.key} id={p.key} aria-labelledby={`${p.key}-h`} className="scroll-mt-28">
-          <div className="grid gap-8 md:grid-cols-[minmax(0,300px)_1fr] md:gap-14">
-            <div className="md:sticky md:top-28 md:self-start">
-              <span className="eyebrow" style={{ color: p.accent }}>{p.n} / {p.services.length} services</span>
-              <h2 id={`${p.key}-h`} className="display mt-3 text-4xl md:text-5xl">{p.title}</h2>
-              <p className="mt-3 text-muted">{p.line}</p>
-              <span className="mt-6 block h-1 w-12 rounded-full" style={{ background: p.accent }} />
-            </div>
-            <Reveal as="ul" className="border-t border-line">
-              {p.services.map((s) => {
-                const d = serviceDetails[s.title];
-                const n = String(++count).padStart(2, "0");
-                return (
-                  <li key={s.title} className="border-b border-line">
-                    <details className="svc group" style={{ "--accent": p.accent } as React.CSSProperties}>
-                      <summary className="flex cursor-pointer list-none items-start gap-5 py-6 pr-2 transition-colors hover:bg-fg/[0.02] [&::-webkit-details-marker]:hidden">
-                        <span className="eyebrow w-7 shrink-0 pt-1.5" style={{ color: p.accent }}>{n}</span>
-                        <span className="flex-1">
-                          <span className="display block text-xl md:text-2xl">{s.title}</span>
-                          <span className="mt-2 block max-w-xl text-sm leading-relaxed text-muted">{s.body}</span>
-                        </span>
-                        <span aria-hidden="true" className="svc-plus drop mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full text-lg leading-none transition-all duration-300 group-open:rotate-45 group-open:border-[var(--accent)] group-open:text-[var(--accent)]">+</span>
-                      </summary>
-                      {d && (
-                        <div className="svc-body grid gap-8 pb-8 pl-12 pr-2 text-sm lg:grid-cols-2">
-                          <div>
-                            <h3 className="eyebrow mb-3">What we provide</h3>
-                            <ul className="space-y-2">
-                              {d.provides.map((x) => (
-                                <li key={x} className="flex gap-3"><span aria-hidden="true" style={{ color: p.accent }}>→</span>{x}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="space-y-6">
-                            <div>
-                              <h3 className="eyebrow mb-2">Typical use cases</h3>
-                              <p className="leading-relaxed text-muted">{d.uses.join(" · ")}</p>
-                            </div>
-                            <div>
-                              <h3 className="eyebrow mb-2" style={{ color: "#4aa8e8" }}>Where AI helps</h3>
-                              <p className="leading-relaxed text-muted">{d.ai}</p>
-                            </div>
-                            <div className="border-l-2 pl-4" style={{ borderColor: p.accent }}>
-                              <h3 className="eyebrow mb-1">Business value</h3>
-                              <p className="leading-relaxed">{d.value}</p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </details>
-                  </li>
-                );
-              })}
-            </Reveal>
+import Link from "next/link";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
+import type { Offering } from "@/lib/catalog";
+import { IconBadge, icons, type IconName } from "./ui";
+
+const DURATION = 420;
+
+/**
+ * Full brief in a panel that slides in from the right. Rendered into <body> so card transforms
+ * can't trap it, and closed explicitly before navigating so it never survives a route change.
+ */
+function DetailPanel({ o, accent, icon, onClose }: { o: Offering; accent: string; icon: IconName; onClose: () => void }) {
+  const titleId = useId();
+  const panel = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setShown(true));
+    const prevFocus = document.activeElement as HTMLElement | null;
+    panel.current?.focus();
+    const prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      cancelAnimationFrame(raf);
+      document.documentElement.style.overflow = prevOverflow;
+      prevFocus?.focus?.();
+    };
+  }, []);
+
+  const close = () => {
+    setShown(false);
+    setTimeout(onClose, DURATION);
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  return createPortal(
+    <div className="fixed inset-0 z-[120]" role="presentation">
+      <div
+        aria-hidden="true"
+        onClick={close}
+        className="absolute inset-0 bg-black/55 backdrop-blur-sm transition-opacity ease-out"
+        style={{ opacity: shown ? 1 : 0, transitionDuration: `${DURATION}ms` }}
+      />
+      <div
+        ref={panel}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        data-lenis-prevent
+        className="absolute inset-y-0 right-0 w-full max-w-xl overflow-y-auto border-l border-line bg-ink-2 p-7 text-text shadow-[-30px_0_80px_-30px_rgb(0_0_0/0.5)] outline-none transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)] md:p-10"
+        style={{ transform: shown ? "translateX(0)" : "translateX(100%)", transitionDuration: `${DURATION}ms` }}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <IconBadge icon={icon} color={accent} size={52} />
+          <button type="button" onClick={close} className="grid h-10 w-10 place-items-center rounded-full border border-line-strong text-lg transition hover:border-text" aria-label="Close">
+            ×
+          </button>
+        </div>
+        <h2 id={titleId} className="display mt-6 text-[1.8rem] tracking-[-0.025em]">{o.title}</h2>
+        <p className="lede mt-3">{o.summary}</p>
+
+        <h3 className="eyebrow mt-9 mb-3">What we provide</h3>
+        <ul className="grid gap-2">
+          {o.provides.map((x) => (
+            <li key={x} className="flex items-start gap-3 rounded-xl border border-line bg-ink/40 px-4 py-3 text-[0.95rem]">
+              <span className="mt-0.5 shrink-0" style={{ color: accent }}>{icons.check}</span>
+              {x}
+            </li>
+          ))}
+        </ul>
+
+        <h3 className="eyebrow mt-9 mb-3">Typical use cases</h3>
+        <ul className="flex flex-wrap gap-2">
+          {o.uses.map((u) => (
+            <li key={u} className="chip">{u}</li>
+          ))}
+        </ul>
+
+        {o.ai && (
+          <div className="mt-9 rounded-2xl border p-5" style={{ borderColor: "color-mix(in srgb, #4aa8e8 35%, transparent)", background: "color-mix(in srgb, #4aa8e8 7%, transparent)" }}>
+            <h3 className="flex items-center gap-2 font-semibold text-[#4aa8e8]">{icons.spark} Where AI helps</h3>
+            <p className="mt-2 leading-relaxed text-muted">{o.ai}</p>
           </div>
-        </section>
-      ))}
-    </div>
+        )}
+
+        <div className="mt-9 rounded-2xl p-5" style={{ background: `color-mix(in srgb, ${accent} 10%, transparent)` }}>
+          <h3 className="eyebrow mb-1">Business value</h3>
+          <p className="leading-relaxed">{o.value}</p>
+        </div>
+
+        {/* close immediately (no slide) so the panel is gone before the next page renders */}
+        <Link href="/contact" onClick={onClose} className="btn btn-primary mt-9">
+          Talk to us about this <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+/**
+ * A service as a compact tile: icon, name, one-line tagline and two deliverables.
+ * "Details" opens the full brief in a side panel, so the page stays scannable.
+ */
+export function OfferingTile({ o, accent }: { o: Offering; accent: string }) {
+  const [open, setOpen] = useState(false);
+  const icon = (o.icon ?? "check") as IconName;
+
+  return (
+    <li className="card card-hover group flex flex-col p-6" style={{ "--accent": accent } as CSSProperties}>
+      <IconBadge icon={icon} color={accent} />
+      <h3 className="display mt-5 text-[1.2rem] leading-snug tracking-[-0.015em]">{o.title}</h3>
+      <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{o.tagline ?? o.summary}</p>
+      <ul className="mt-5 flex flex-wrap gap-1.5">
+        {o.provides.slice(0, 2).map((p) => (
+          <li key={p} className="chip text-[0.78rem]">{p}</li>
+        ))}
+      </ul>
+      <div className="mt-auto pt-6">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex w-full items-center justify-between border-t border-line pt-4 text-sm font-semibold transition-colors hover:text-[var(--accent)]"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+        >
+          Details
+          <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full border border-line-strong transition-transform duration-300 group-hover:translate-x-0.5">
+            {icons.arrow}
+          </span>
+        </button>
+      </div>
+      {open && <DetailPanel o={o} accent={accent} icon={icon} onClose={() => setOpen(false)} />}
+    </li>
   );
 }

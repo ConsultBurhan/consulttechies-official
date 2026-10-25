@@ -20,7 +20,7 @@ export const logoSrc = (client: Client, size: 256 | 512 = 512) =>
   `/clients/${client.slug}/${client.slug}-${size}.png`;
 
 export const clients: Record<string, Client> = {
-  kout: c("kout", "Kout Food Group", "Multi-brand restaurant operator", "https://www.koutfood.com/", "Kuwait", "kout-food-group"),
+  kout: c("kout", "Kout Food Group", "Food service group running international and homegrown brands", "https://www.koutfood.com/", "Kuwait", "kout-food-group"),
   bk: c("bk", "Burger King", "Kout Food Group brand", "https://www.bk.com.kw/", "Kuwait", "burger-king"),
   ph: c("ph", "Pizza Hut", "Kout Food Group brand", "https://www.kuwait.pizzahut.me/", "Kuwait", "pizza-hut"),
   subway: c("subway", "Subway", "Kout Food Group brand", "https://www.subway.com.kw/", "Kuwait"),
@@ -46,3 +46,10 @@ export const clientGroups = [
   { key: "tech", n: "04", title: "Technology & platforms", line: "The systems that keep other businesses moving.", accent: "#2f9bd6", ids: ["almaviva", "prezien", "tellgo"] },
   { key: "care", n: "05", title: "Public service & care", line: "Institutions people trust with what matters most.", accent: "#22b8b4", ids: ["euaa", "asnan"] },
 ].map((g) => ({ ...g, clients: g.ids.map((id) => clients[id]) }));
+
+/** Published figures about Kout Food Group (as stated on consulttechies.io). */
+export const kfgFacts = [
+  { value: "250+", label: "stores across Kuwait" },
+  { value: "4,000+", label: "people on the team" },
+  { value: "40", label: "nationalities at work" },
+];

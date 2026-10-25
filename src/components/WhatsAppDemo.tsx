@@ -21,7 +21,7 @@ export function WhatsAppDemo() {
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     () => false,
   );
-  const [played, setCount] = useState(0);
+  const [played, setCount] = useState(2);
   const count = reduce ? script.length : played;
   const [run, setRun] = useState(0);
   const box = useRef<HTMLDivElement>(null);
@@ -37,8 +37,8 @@ export function WhatsAppDemo() {
   useEffect(() => {
     if (!inView) return;
     if (reduce) return;
-    let i = 0;
-    const reset = setTimeout(() => setCount(0), 0);
+    let i = 2;
+    const reset = setTimeout(() => setCount(2), 0);
     const id = setInterval(() => {
       i++;
       setCount(i);
@@ -61,11 +61,11 @@ export function WhatsAppDemo() {
           <div className="flex items-center gap-3 bg-[#1f2c34] px-4 py-3">
             <span className="grid h-9 w-9 place-items-center rounded-full bg-[#25d366] text-sm font-bold text-black">B</span>
             <div>
-              <p className="text-sm font-semibold">Your Brand</p>
-              <p className="text-[11px] text-[#25d366]">Business account · online</p>
+              <p className="text-sm font-semibold">Order assistant</p>
+              <p className="text-[11px] text-[#25d366]">Verified business · online</p>
             </div>
           </div>
-          <div ref={box} role="log" aria-live="off" className="h-[380px] space-y-2 overflow-y-auto p-4">
+          <div ref={box} role="log" aria-live="off" className="h-[300px] space-y-2 overflow-y-auto p-4 sm:h-[360px]">
             {script.slice(0, count).map((m, i) => (
               <div key={i} className={`pop flex ${m.from === "me" ? "justify-end" : ""}`}>
                 <p

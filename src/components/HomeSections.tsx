@@ -1,214 +1,136 @@
 import Link from "next/link";
-import { areas, guardrails, pairings } from "@/lib/specializations";
+import { delivery } from "@/lib/specializations";
 import { Reveal } from "./Reveal";
-import { WhatsAppDemo } from "./WhatsAppDemo";
+import { Card, IconBadge, icons, type IconName } from "./ui";
 
-const [wa, ai, crm, devops] = areas;
+const controls: { does: string; keep: string; icon: IconName }[] = [
+  { does: "Answers questions in plain language", keep: "Only from documents and data you approve", icon: "search" },
+  { does: "Drafts replies and summaries", keep: "A person reviews anything consequential before it goes out", icon: "pen" },
+  { does: "Analyses your business data", keep: "Within the same access rules your team already has", icon: "chart" },
+  { does: "Classifies, extracts and routes work", keep: "Actions on your systems need explicit permission", icon: "loop" },
+  { does: "Sometimes doesn't know", keep: "A defined fallback, a human handover and ongoing evaluation", icon: "compass" },
+];
 
-/** WhatsApp: copy scrolls on the left while the phone stays pinned on the right. */
-export function WhatsAppSection() {
+/** AI framed as a contract: each capability card is paired with the control that governs it. */
+export function AiControls() {
   return (
-    <section id="whatsapp" className="container-x scroll-mt-24 pt-40" aria-labelledby="wa-h">
-      <div className="grid gap-16 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
-        <div>
-          <Reveal>
-            <p className="eyebrow mb-4" style={{ color: wa.accent }}>01 · {wa.kicker}</p>
-            <h2 id="wa-h" className="display text-[clamp(2.2rem,5vw,4.4rem)]">
-              Browse, order and track, <span className="grad-text">inside one chat.</span>
-            </h2>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">Service, ordering and campaigns on the app your customers already open every day.</p>
-          </Reveal>
-          <ol className="mt-12">
-            {wa.capabilities.map((c, i) => (
-              <Reveal as="li" key={c.title} className="grid gap-4 border-t border-line py-8 sm:grid-cols-[3rem_1fr]">
-                <span className="eyebrow pt-1" style={{ color: wa.accent }}>0{i + 1}</span>
-                <div>
-                  <h3 className="display text-2xl md:text-3xl">{c.title}</h3>
-                  <p className="mt-3 max-w-xl leading-relaxed text-muted">{c.intro}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-          <Link href="/expertise#whatsapp" className="btn btn-ghost mt-4">WhatsApp in detail →</Link>
-        </div>
-        <div className="md:sticky md:top-28 md:self-start">
-          <WhatsAppDemo />
-
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** AI: a ledger of capabilities plus the controls that keep it honest. */
-export function AiSection() {
-  return (
-    <section id="ai" className="relative mt-40 scroll-mt-24 overflow-hidden border-y border-line bg-ink-2 py-28" aria-labelledby="ai-h">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{ background: "radial-gradient(50% 45% at 100% 0%, rgb(74 168 232 / .18), transparent 70%), radial-gradient(40% 40% at 0% 100%, rgb(29 188 191 / .10), transparent 70%)" }}
-      />
-      <div className="container-x relative grid gap-14 md:grid-cols-[minmax(0,400px)_1fr] md:gap-20">
-        <Reveal className="md:sticky md:top-28 md:self-start">
-          <p className="eyebrow mb-4" style={{ color: ai.accent }}>02 · {ai.kicker}</p>
-          <h2 id="ai-h" className="display text-[clamp(2.2rem,4.6vw,4.2rem)]">
-            AI, applied where it <span className="grad-text">earns its place.</span>
-          </h2>
-          <p className="mt-6 leading-relaxed text-muted">Assistants, analysis and workflow automation, built around your data and your permissions.</p>
-          <Link href="/expertise#ai" className="btn btn-ghost mt-8">All AI capabilities →</Link>
-        </Reveal>
-
-        <ul>
-          {ai.capabilities.map((c, i) => (
-            <Reveal as="li" key={c.title} className="ledger group border-t border-fg/10 py-7 first:border-t-0 first:pt-0">
-              <div className="grid gap-3 sm:grid-cols-[3rem_1fr] sm:gap-6">
-                <span className="eyebrow pt-2" style={{ color: ai.accent }}>0{i + 1}</span>
-                <div className="transition-transform duration-500 group-hover:translate-x-2">
-                  <h3 className="display text-2xl md:text-[1.75rem]">{c.title}</h3>
-                  <p className="mt-2 max-w-xl leading-relaxed text-muted">{c.intro}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </ul>
-      </div>
-
-      <div className="container-x relative mt-24">
-        <Reveal>
-          <p className="eyebrow mb-3">AI with controls</p>
-          <p className="max-w-2xl text-xl leading-snug md:text-2xl">Clear boundaries come first.</p>
-        </Reveal>
-        <Reveal as="ul" stagger className="mt-10 grid border-t border-fg/10 sm:grid-cols-2 lg:grid-cols-5">
-          {guardrails.map(([t, d], i) => (
-            <li key={t} className="border-b border-fg/10 py-6 pr-6 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0">
-              <span className="eyebrow" style={{ color: ai.accent }}>0{i + 1}</span>
-              <h3 className="mt-3 font-semibold">{t}</h3>
-              <p className="mt-1 text-sm leading-snug text-muted">{d.split(",")[0].replace(/\.$/, "")}</p>
-            </li>
-          ))}
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/** CRM: oversized platform names, then a four-column spec sheet. */
-export function CrmSection() {
-  return (
-    <section id="crm" className="container-x scroll-mt-24 pt-40" aria-labelledby="crm-h">
-      <Reveal>
-        <p className="eyebrow mb-4" style={{ color: crm.accent }}>03 · {crm.kicker}</p>
-        <h2 id="crm-h" className="display max-w-[20ch] text-[clamp(2.2rem,5vw,4.4rem)]">
-          Customer data that finally <span className="grad-text">moves together.</span>
-        </h2>
-      </Reveal>
-      <Reveal className="mt-12 flex flex-wrap items-end gap-x-10 gap-y-2 border-y border-line py-8">
-        {["Emarsys", "HubSpot", "Zoho"].map((p) => (
-          <span key={p} className="outline-text display text-[clamp(3rem,10vw,8.5rem)]">{p}</span>
-        ))}
-        <p className="max-w-[14rem] pb-3 text-sm text-muted">…and other systems with open interfaces.</p>
-      </Reveal>
-      <Reveal as="ul" stagger className="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
-        {crm.capabilities.map((c) => (
-          <li key={c.title} className="border-t-2 pt-5" style={{ borderColor: crm.accent }}>
-            <h3 className="display text-2xl">{c.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{c.intro}</p>
-          </li>
-        ))}
-      </Reveal>
-    </section>
-  );
-}
-
-const stages = ["Commit", "Build", "Test", "Stage", "Release", "Monitor"];
-
-/** DevOps: a living pipeline diagram and an inline capability index. */
-export function DevopsSection() {
-  return (
-    <section id="devops" className="container-x scroll-mt-24 pt-40" aria-labelledby="devops-h">
-      <div className="grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-end">
-        <Reveal>
-          <p className="eyebrow mb-4" style={{ color: devops.accent }}>04 · {devops.kicker}</p>
-          <h2 id="devops-h" className="display text-[clamp(2.2rem,5vw,4.4rem)]">
-            Websites, apps and infrastructure, <span className="grad-text">shipped and kept alive.</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <p className="leading-relaxed text-muted">Websites, mobile apps, custom software and the cloud they run on, supported across the whole lifecycle.</p>
-        </Reveal>
-      </div>
-
-      <Reveal className="relative mt-16 overflow-hidden glass rounded-[2rem] p-6 md:p-10">
-        <p className="eyebrow mb-8">A release, end to end</p>
-        <ol className="pipeline relative grid gap-6 md:grid-cols-6">
-          <span aria-hidden="true" className="pipe-line hidden md:block" />
-          {stages.map((s, i) => (
-            <li key={s} className="relative flex items-center gap-4 md:flex-col md:items-start md:gap-3">
-              <span className="pipe-node relative z-10 grid h-9 w-9 shrink-0 place-items-center rounded-full border text-[11px] font-mono" style={{ animationDelay: `${i * 0.7}s` }}>
-                {i + 1}
-              </span>
-              <span className="display text-xl">{s}</span>
-            </li>
-          ))}
-        </ol>
-      </Reveal>
-
-      <Reveal as="ul" stagger className="mt-14 divide-y divide-line border-y border-line">
-        {devops.capabilities.map((c, i) => (
-          <li key={c.title} className="grid gap-2 py-5 md:grid-cols-[3rem_1.1fr_1.4fr] md:items-baseline md:gap-8">
-            <span className="eyebrow" style={{ color: devops.accent }}>0{i + 1}</span>
-            <h3 className="display text-xl md:text-2xl">{c.title}</h3>
-            <p className="text-sm leading-relaxed text-muted">{c.does.slice(0, 2).join(" · ")}</p>
-          </li>
-        ))}
-      </Reveal>
-    </section>
-  );
-}
-
-/** "Stronger together": oversized type pairings. */
-export function Pairings() {
-  return (
-    <section className="container-x pt-40" aria-labelledby="pair-h">
-      <Reveal>
-        <p className="eyebrow mb-4">Better together</p>
-        <h2 id="pair-h" className="display max-w-[20ch] text-[clamp(2.2rem,5vw,4.2rem)]">
-          The strongest solutions connect <span className="grad-text">more than one.</span>
-        </h2>
-      </Reveal>
-      <Reveal as="ul" stagger className="mt-14 border-t border-line">
-        {pairings.map((p) => (
-          <li key={p.a + p.b} className="pair group grid items-center gap-3 border-b border-line py-7 transition-colors md:grid-cols-[1.3fr_1fr] md:gap-12">
-            <h3 className="display text-[clamp(1.8rem,4.4vw,3.6rem)] transition-transform duration-500 group-hover:translate-x-3">
-              <span style={{ color: p.accents[0] }}>{p.a}</span>
-              <span className="mx-3 text-muted">+</span>
-              <span style={{ color: p.accents[1] }}>{p.b}</span>
-            </h3>
-            <p className="leading-relaxed text-muted">{p.line}</p>
-          </li>
-        ))}
-      </Reveal>
-    </section>
-  );
-}
-
-export function ResponsibleBand() {
-  return (
-    <Reveal as="section" className="container-x pt-40">
-      <div className="grid gap-10 glass rounded-[2rem] p-8 md:grid-cols-[minmax(0,340px)_1fr] md:gap-16 md:p-14">
-        <div>
-          <p className="eyebrow mb-4">A practical, responsible approach</p>
-          <h2 className="display text-3xl md:text-4xl">Scoped honestly, delivered carefully.</h2>
-        </div>
-        <div className="space-y-5 leading-relaxed text-muted">
-          <p>
-            Features that depend on third-party platforms, approvals, licensing or AI model capability are confirmed in
-            discovery. Service levels and compliance commitments are included only when explicitly agreed.
+    <section id="ai" className="sec border-t border-line" aria-labelledby="ai-h">
+      <div className="container-x">
+        <Reveal className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
+          <h2 id="ai-h" className="display t-h2 max-w-[13ch]">AI that works inside your rules.</h2>
+          <p className="lede max-w-md md:justify-self-end">
+            Every capability we build comes with a control you keep. Specific commitments are agreed per project, never assumed.
           </p>
+        </Reveal>
 
+        <div className="mt-12 hidden grid-cols-[1fr_56px_1fr] gap-x-2 px-1 text-sm text-muted md:grid">
+          <p>What the AI does</p>
+          <span />
+          <p>What stays in your control</p>
+        </div>
+        <Reveal as="ul" stagger className="mt-4 space-y-3">
+          {controls.map((c) => (
+            <li key={c.does} className="grid items-stretch gap-2 md:grid-cols-[1fr_56px_1fr] md:gap-x-2">
+              <Card hover={false} className="flex items-center gap-4 p-5">
+                <IconBadge icon={c.icon} color="#4aa8e8" size={40} />
+                <span className="display text-[1.1rem] tracking-[-0.015em] md:text-[1.2rem]">{c.does}</span>
+              </Card>
+              <span aria-hidden="true" className="relative hidden items-center justify-center md:flex">
+                <span className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-[#4aa8e8] to-teal opacity-60" />
+                <span className="relative grid h-8 w-8 place-items-center rounded-full border border-line-strong bg-ink text-teal">{icons.arrow}</span>
+              </span>
+              <div
+                className="flex items-center gap-4 rounded-[24px] border p-5"
+                style={{ borderColor: "color-mix(in srgb, var(--teal) 35%, transparent)", background: "color-mix(in srgb, var(--teal) 7%, var(--ink-2))" }}
+              >
+                <span className="shrink-0 text-teal">{icons.shield}</span>
+                <span className="leading-relaxed">{c.keep}</span>
+              </div>
+            </li>
+          ))}
+        </Reveal>
+        <div className="mt-8 flex justify-end">
+          <Link href="/services#ai" className="link text-sm">AI services</Link>
         </div>
       </div>
-    </Reveal>
+    </section>
+  );
+}
+
+type Side = { name: string; color: string; icon: IconName };
+const combos: { a: Side; b: Side; line: string }[] = [
+  { a: { name: "WhatsApp", color: "#25d366", icon: "chat" }, b: { name: "CRM", color: "#ef4056", icon: "contacts" }, line: "Conversations, lead records and campaign activity in one customer view." },
+  { a: { name: "WhatsApp", color: "#25d366", icon: "chat" }, b: { name: "AI", color: "#4aa8e8", icon: "spark" }, line: "Natural-language enquiries, with fallback and handover to your team." },
+  { a: { name: "CRM", color: "#ef4056", icon: "contacts" }, b: { name: "Data quality", color: "#f17f2a", icon: "database" }, line: "Clean, de-duplicated records before any journey or campaign goes live." },
+];
+
+/** Connected solutions: overlapping badges make the pairing visible before the text explains it. */
+export function Combos() {
+  return (
+    <section className="sec-tight" aria-labelledby="combo-h">
+      <div className="container-x">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
+          <h2 id="combo-h" className="display text-[1.6rem] tracking-[-0.02em] md:text-[2rem]">Better connected</h2>
+          <p className="max-w-sm text-sm text-muted">The strongest results usually come from two areas working together.</p>
+        </Reveal>
+        <Reveal as="ul" stagger className="mt-8 grid gap-4 md:grid-cols-3">
+          {combos.map(({ a, b, line }) => (
+            <Card as="li" key={a.name + b.name} accent={b.color} glow className="p-6">
+              <div className="relative flex items-center">
+                <IconBadge icon={a.icon} color={a.color} size={48} />
+                <span className="-ml-3 rounded-[16px] bg-ink-2 ring-4 ring-[var(--ink-2)]">
+                  <IconBadge icon={b.icon} color={b.color} size={48} />
+                </span>
+              </div>
+              <h3 className="display mt-5 text-[1.25rem] tracking-[-0.015em]">
+                {a.name} <span className="text-muted">+</span> {b.name}
+              </h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{line}</p>
+            </Card>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+const stepMeta: { icon: IconName; get: string }[] = [
+  { icon: "search", get: "Goals, constraints and success measures" },
+  { icon: "pen", get: "Architecture, flows and security boundaries" },
+  { icon: "code", get: "Working software, integrations and automation" },
+  { icon: "check", get: "Tested permissions, edge cases and readiness" },
+  { icon: "rocket", get: "Documentation and operational handover" },
+  { icon: "loop", get: "Prioritised next improvements" },
+];
+
+/** Delivery: a genuine sequence, shown as step cards with what you get at each stage. */
+export function Process() {
+  return (
+    <section className="sec border-t border-line" aria-labelledby="process-h">
+      <div className="container-x">
+        <Reveal className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
+          <h2 id="process-h" className="display t-h2 max-w-[12ch]">How a project runs.</h2>
+          <p className="lede max-w-md md:justify-self-end">Scoped to your systems, data and support needs. Anything third-party is confirmed in discovery.</p>
+        </Reveal>
+        <Reveal as="ol" stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {delivery.map(([t, d], i) => (
+            <Card as="li" key={t} accent="var(--orange)" className="flex flex-col p-6">
+              <div className="flex items-center justify-between">
+                <IconBadge icon={stepMeta[i].icon} color="var(--orange)" size={40} />
+                <span className="data text-muted">Step {i + 1} of {delivery.length}</span>
+              </div>
+              <h3 className="display mt-5 text-[1.3rem] tracking-[-0.015em]">{t}</h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{d}</p>
+              <div className="mt-auto pt-5">
+                <p className="flex items-start gap-2 border-t border-line pt-4 text-sm">
+                  <span className="shrink-0 text-muted">You get</span>
+                  <span>{stepMeta[i].get}</span>
+                </p>
+              </div>
+            </Card>
+          ))}
+        </Reveal>
+      </div>
+    </section>
   );
 }

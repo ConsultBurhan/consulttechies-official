@@ -354,14 +354,6 @@ export const areas: Area[] = [
   },
 ];
 
-export const pairings = [
-  { a: "WhatsApp", b: "CRM", line: "Connect conversations, lead records, campaign activity and support workflows.", accents: ["#25d366", "#ef4056"] },
-  { a: "WhatsApp", b: "AI", line: "Natural-language enquiries and guided journeys, with fallback and human handover.", accents: ["#25d366", "#4aa8e8"] },
-  { a: "AI", b: "Business platforms", line: "Approved knowledge, data analysis and workflow assistance inside the systems you already run.", accents: ["#4aa8e8", "#f17f2a"] },
-  { a: "CRM", b: "Data quality", line: "Fix customer records and segmentation before activating journeys or campaigns.", accents: ["#ef4056", "#f17f2a"] },
-  { a: "DevOps", b: "App management", line: "Reliable deployment, monitoring, maintenance and continuous improvement.", accents: ["#1dbcbf", "#4aa8e8"] },
-];
-
 export const delivery = [
   ["Discover", "Clarify business goals, user needs, current systems and constraints."],
   ["Design", "Define the solution, integrations, data flows, security boundaries and success measures."],
@@ -369,12 +361,4 @@ export const delivery = [
   ["Validate", "Test functionality, access permissions, edge cases and operational readiness."],
   ["Launch & support", "Document the solution, hand over operational guidance and support per scope."],
   ["Improve", "Use feedback and agreed measures to prioritise what comes next."],
-] as const;
-
-export const guardrails = [
-  ["Permitted data", "Defined sources the AI may read, and nothing else."],
-  ["Access rules", "Role-aware permissions, least privilege, secure credentials."],
-  ["Human review", "Approval for consequential or sensitive actions."],
-  ["Fallback", "A clear path when the AI cannot answer reliably."],
-  ["Evaluation", "Agreed criteria to test quality, reliability and safety."],
 ] as const;
