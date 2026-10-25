@@ -48,11 +48,24 @@ export function Nav() {
 
   const condensed = condensedByScroll && !open;
 
+  // SVG displacement in backdrop-filter bends what is behind the pill (Chromium only); others keep the blur.
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/Chrome|Edg\//.test(ua) && !/Firefox/.test(ua)) document.documentElement.setAttribute("data-refract", "");
+  }, []);
+
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-50 flex flex-col items-center px-3 md:top-4">
+      <svg aria-hidden="true" width="0" height="0" className="absolute">
+        <filter id="liquid-refract" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.05" numOctaves="2" seed="7" result="noise" />
+          <feGaussianBlur in="noise" stdDeviation="3" result="map" />
+          <feDisplacementMap in="SourceGraphic" in2="map" scale="26" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
       <div
-        className="drop pointer-events-auto flex items-center justify-between rounded-full py-1.5 pl-5 pr-1.5 transition-[width,padding,box-shadow] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
-        style={{ width: condensed ? "min(840px, 100%)" : "min(1240px, 100%)", backgroundColor: "color-mix(in srgb, var(--ink) 62%, transparent)" }}
+        className="liquid pointer-events-auto flex items-center justify-between rounded-full py-1.5 pl-5 pr-1.5 transition-[width,padding,box-shadow] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+        style={{ width: condensed ? "min(840px, 100%)" : "min(1240px, 100%)" }}
       >
         <Link href="/" aria-label="Babji Consult Techies, home" onClick={() => setOpen(false)}>
           <Logo className={`w-auto transition-all duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] ${condensed ? "h-7" : "h-9"}`} />
