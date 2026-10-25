@@ -19,7 +19,7 @@ export default function Home() {
         <p className="eyebrow mb-6">What we do</p>
         <TextReveal
           className="display max-w-[26ch] text-[clamp(1.9rem,4.6vw,4rem)] !leading-[1.1] !tracking-[-0.03em]"
-          text="We help businesses improve how they engage customers, use information, manage relationships and run their digital platforms. Strategy, implementation, integration, automation and the ongoing support that keeps it working."
+          text="We help businesses engage customers, use their information, manage relationships and run their digital platforms."
           marks={["engage", "customers", "digital", "platforms"]}
         />
       </section>

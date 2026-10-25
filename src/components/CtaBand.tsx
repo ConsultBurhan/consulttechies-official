@@ -5,7 +5,7 @@ import { site, whatsappLink } from "@/lib/site";
 export function CtaBand() {
   return (
     <Reveal as="section" className="container-x">
-      <div className="relative overflow-hidden rounded-[2rem] border border-line bg-ink-2 px-6 py-16 text-center md:px-16 md:py-24">
+      <div className="relative overflow-hidden glass rounded-[2.5rem] px-6 py-16 text-center md:px-16 md:py-24">
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-70"

@@ -56,8 +56,8 @@ export function WhatsAppDemo() {
 
   return (
     <div ref={wrap} className="mx-auto w-full max-w-[340px]">
-      <div className="rounded-[2.4rem] border border-white/15 bg-ink-3 p-3 shadow-[0_40px_120px_-30px_rgb(37_211_102/.35)]">
-        <div className="overflow-hidden rounded-[1.8rem] bg-[#0b141a]">
+      <div className="rounded-[2.4rem] border border-fg/15 bg-ink-3 p-3 shadow-[0_40px_120px_-30px_rgb(37_211_102/.35)]">
+        <div className="overflow-hidden rounded-[1.8rem] bg-[#0b141a] text-[#e9edef]">
           <div className="flex items-center gap-3 bg-[#1f2c34] px-4 py-3">
             <span className="grid h-9 w-9 place-items-center rounded-full bg-[#25d366] text-sm font-bold text-black">B</span>
             <div>
@@ -80,7 +80,7 @@ export function WhatsAppDemo() {
           </div>
         </div>
       </div>
-      <button onClick={() => setRun((r) => r + 1)} className="mt-4 w-full text-center text-xs text-muted underline-offset-4 hover:text-white hover:underline">
+      <button onClick={() => setRun((r) => r + 1)} className="mt-4 w-full text-center text-xs text-muted underline-offset-4 hover:text-text hover:underline">
         Replay conversation
       </button>
     </div>

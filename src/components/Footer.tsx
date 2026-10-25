@@ -3,11 +3,13 @@ import { nav, site, whatsappLink } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-line bg-ink-2">
+    <footer className="mt-32 border-t border-line bg-ink-2/70 backdrop-blur-sm">
       <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/Logo-light.svg" alt="Babji Consult Techies" width={150} height={82} className="h-16 w-auto" />
+          <img src="/Logo-light.svg" alt="Babji Consult Techies" width={150} height={82} className="theme-dark-only h-16 w-auto" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/Logo.svg" alt="Babji Consult Techies" width={150} height={82} className="theme-light-only h-16 w-auto" />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted">
             Software, WhatsApp automation, cloud operations and platform integration for businesses that
             run on customer relationships. Since {site.founded}.
@@ -19,7 +21,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm">
             {nav.map((n) => (
               <li key={n.href}>
-                <Link className="text-muted transition hover:text-white" href={n.href}>
+                <Link className="text-muted transition hover:text-text" href={n.href}>
                   {n.label}
                 </Link>
               </li>
@@ -31,18 +33,18 @@ export function Footer() {
           <h2 className="eyebrow mb-4">Contact</h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <a className="text-muted transition hover:text-white" href={`mailto:${site.email}`}>
+              <a className="text-muted transition hover:text-text" href={`mailto:${site.email}`}>
                 {site.email}
               </a>
             </li>
             <li>
-              <a className="text-muted transition hover:text-white" href={`tel:${site.phone}`}>
+              <a className="text-muted transition hover:text-text" href={`tel:${site.phone}`}>
                 {site.phoneDisplay}
               </a>
             </li>
             <li>
               <a
-                className="text-muted transition hover:text-white"
+                className="text-muted transition hover:text-text"
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"

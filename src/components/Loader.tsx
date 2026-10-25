@@ -31,15 +31,18 @@ export function Loader() {
       className="fixed inset-0 z-[200] grid place-items-center bg-ink transition-opacity duration-500"
       style={{ opacity: state === "hide" ? 0 : 1, pointerEvents: state === "hide" ? "none" : "auto" }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/Loader-light.svg"
-        alt=""
-        width={96}
-        height={112}
-        style={{ animation: "loaderPulse 1.1s ease-in-out infinite" }}
-        className="h-28 w-auto"
-      />
+      {["/Loader-light.svg", "/Loader.svg"].map((src, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={src}
+          src={src}
+          alt=""
+          width={96}
+          height={112}
+          style={{ animation: "loaderPulse 1.1s ease-in-out infinite" }}
+          className={`${i ? "theme-light-only" : "theme-dark-only"} h-28 w-auto`}
+        />
+      ))}
     </div>
   );
 }

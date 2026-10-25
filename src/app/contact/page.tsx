@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/PageHeader";
 import { ContactForm } from "@/components/ContactForm";
+import { OfficeClock } from "@/components/OfficeClocks";
 import { site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -8,33 +8,60 @@ export const metadata: Metadata = {
   description: "Talk to Babji Consult Techies. Offices in Udaipur, India and Austin, Texas.",
 };
 
+const channels = [
+  { label: "WhatsApp", value: "Message us", href: whatsappLink(), external: true, accent: "#25d366" },
+  { label: "Email", value: site.email, href: `mailto:${site.email}`, accent: "#4aa8e8" },
+  { label: "Phone", value: site.phoneDisplay, href: `tel:${site.phone}`, accent: "#f17f2a" },
+];
+
+/** Split screen: who and where on the left (pinned), a short stepped form on the right. */
 export default function ContactPage() {
   return (
-    <>
-      <PageHeader eyebrow="Contact" title={<>Let&apos;s build something <span className="grad-text">that works.</span></>}>
-        Tell us about your project and we&apos;ll reply by email.
-      </PageHeader>
-      <div className="container-x grid gap-16 md:grid-cols-[1.2fr_1fr]">
-        <ContactForm />
-        <aside className="space-y-8">
-          <div>
-            <h2 className="eyebrow mb-3">Direct</h2>
-            <ul className="space-y-2">
-              <li><a className="text-lg hover:text-teal" href={`mailto:${site.email}`}>{site.email}</a></li>
-              <li><a className="text-lg hover:text-teal" href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
-              <li><a className="text-lg hover:text-teal" href={whatsappLink()} target="_blank" rel="noopener noreferrer">Message on WhatsApp</a></li>
-            </ul>
+    <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <section className="relative px-[max(1.5rem,calc((100vw-1240px)/2))] pb-16 pt-36 lg:pr-12" aria-labelledby="contact-h">
+        <div className="lg:sticky lg:top-32">
+          <p className="eyebrow mb-5">Contact</p>
+          <h1 id="contact-h" className="display text-[clamp(2.8rem,6vw,5.4rem)]">
+            Start with <span className="grad-text">a conversation.</span>
+          </h1>
+
+          <ul className="mt-12 border-t border-line">
+            {channels.map((c) => (
+              <li key={c.label} className="border-b border-line">
+                <a
+                  href={c.href}
+                  {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="group flex items-baseline justify-between gap-4 py-5"
+                >
+                  <span className="eyebrow w-24 shrink-0" style={{ color: c.accent }}>{c.label}</span>
+                  <span className="display flex-1 text-xl transition-transform duration-500 group-hover:translate-x-2 md:text-2xl">{c.value}</span>
+                  <span aria-hidden="true" className="text-muted transition group-hover:text-text">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-12 grid gap-10 sm:grid-cols-2">
+            {site.offices.map((o, i) => (
+              <div key={o.name}>
+                <OfficeClock tz={i === 0 ? "Asia/Kolkata" : "America/Chicago"} city={i === 0 ? "Udaipur" : "Austin"} />
+                <address className="mt-4 text-sm not-italic leading-relaxed text-muted">
+                  {o.lines.map((l) => (<span key={l} className="block">{l}</span>))}
+                </address>
+              </div>
+            ))}
           </div>
-          {site.offices.map((o) => (
-            <address key={o.name} className="not-italic">
-              <h2 className="eyebrow mb-3">{o.name} · {o.country}</h2>
-              <p className="leading-relaxed text-muted">
-                {o.lines.map((l) => (<span key={l} className="block">{l}</span>))}
-              </p>
-            </address>
-          ))}
-        </aside>
-      </div>
-    </>
+        </div>
+      </section>
+
+      <section className="border-t border-line bg-ink-2/60 px-[max(1.5rem,calc((100vw-1240px)/2))] py-16 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-36" aria-label="Contact form">
+        <div className="mx-auto max-w-xl lg:mx-0 lg:sticky lg:top-32">
+          <ContactForm />
+          <p className="mt-10 border-t border-line pt-6 text-sm text-muted">
+            We read every note and come prepared with questions. A business conversation, not a sales script.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }

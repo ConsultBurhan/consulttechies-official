@@ -19,7 +19,7 @@ export default function ServicesPage() {
       </PageHeader>
       <nav aria-label="Service areas" className="container-x mb-20 flex flex-wrap gap-2">
         {pillars.map((p) => (
-          <Link key={p.key} href={`#${p.key}`} className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-white/40 hover:text-white">
+          <Link key={p.key} href={`#${p.key}`} className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-fg/40 hover:text-text">
             {p.title}
           </Link>
         ))}

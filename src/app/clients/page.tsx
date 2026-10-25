@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
-import { ClientGroups } from "@/components/ClientGroups";
+import { ClientSectors } from "@/components/ClientSectors";
+import { ClientShowcase } from "@/components/ClientShowcase";
 import { CtaBand } from "@/components/CtaBand";
 
 export const metadata: Metadata = {
@@ -11,11 +12,10 @@ export const metadata: Metadata = {
 export default function ClientsPage() {
   return (
     <>
-      <PageHeader eyebrow="Clients" title={<>Brands that trust us <span className="grad-text">with their systems.</span></>}>
-        From Kout Food Group&apos;s restaurant brands in Kuwait to the European Union Agency for Asylum.
-      </PageHeader>
-      <div className="container-x">
-        <ClientGroups />
+      <PageHeader eyebrow="Clients" title={<>Brands that trust us <span className="grad-text">with their systems.</span></>} />
+      <ClientShowcase />
+      <div className="pt-24">
+        <ClientSectors />
       </div>
       <div className="pt-32">
         <CtaBand />

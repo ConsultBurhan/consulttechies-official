@@ -23,13 +23,13 @@ export function ServiceIndex() {
                 return (
                   <li key={s.title} className="border-b border-line">
                     <details className="svc group" style={{ "--accent": p.accent } as React.CSSProperties}>
-                      <summary className="flex cursor-pointer list-none items-start gap-5 py-6 pr-2 transition-colors hover:bg-white/[0.02] [&::-webkit-details-marker]:hidden">
+                      <summary className="flex cursor-pointer list-none items-start gap-5 py-6 pr-2 transition-colors hover:bg-fg/[0.02] [&::-webkit-details-marker]:hidden">
                         <span className="eyebrow w-7 shrink-0 pt-1.5" style={{ color: p.accent }}>{n}</span>
                         <span className="flex-1">
                           <span className="display block text-xl md:text-2xl">{s.title}</span>
                           <span className="mt-2 block max-w-xl text-sm leading-relaxed text-muted">{s.body}</span>
                         </span>
-                        <span aria-hidden="true" className="svc-plus mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-lg leading-none transition-all duration-300 group-open:rotate-45 group-open:border-[var(--accent)] group-open:text-[var(--accent)]">+</span>
+                        <span aria-hidden="true" className="svc-plus drop mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full text-lg leading-none transition-all duration-300 group-open:rotate-45 group-open:border-[var(--accent)] group-open:text-[var(--accent)]">+</span>
                       </summary>
                       {d && (
                         <div className="svc-body grid gap-8 pb-8 pl-12 pr-2 text-sm lg:grid-cols-2">

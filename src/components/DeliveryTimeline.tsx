@@ -45,10 +45,7 @@ export function DeliveryTimeline() {
         <h2 className="display text-[clamp(2.2rem,4.6vw,4rem)]">
           From first call to <span className="grad-text">running in production.</span>
         </h2>
-        <p className="mt-6 max-w-sm leading-relaxed text-muted">
-          Every engagement is scoped to your objective, systems, data and support needs. Anything that depends on
-          third-party platforms, approvals or AI model capability is confirmed in discovery, not assumed.
-        </p>
+
       </div>
       <div className="relative">
         <span aria-hidden="true" className="absolute left-[19px] top-2 bottom-2 w-px bg-line" />
@@ -56,7 +53,7 @@ export function DeliveryTimeline() {
         <ol ref={list} className="relative space-y-16 md:space-y-24">
           {delivery.map(([t, d], i) => (
             <li key={t} className="step group grid grid-cols-[40px_1fr] gap-6 opacity-40 transition-opacity duration-500 [&.is-on]:opacity-100">
-              <span className="grid h-10 w-10 place-items-center rounded-full border border-line bg-ink text-xs font-mono transition-colors duration-500 group-[.is-on]:border-orange group-[.is-on]:bg-orange group-[.is-on]:text-black">
+              <span className="grid h-10 w-10 place-items-center drop rounded-full text-xs font-mono transition-colors duration-500 group-[.is-on]:border-orange! group-[.is-on]:bg-orange! group-[.is-on]:text-black">
                 0{i + 1}
               </span>
               <div>

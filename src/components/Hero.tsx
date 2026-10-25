@@ -85,9 +85,8 @@ export function Hero() {
           ))}
         </h1>
         <p data-f className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-          WhatsApp business solutions, practical AI, CRM and customer engagement, and the DevOps behind your websites
-          and apps, delivered by one team for brands like Kout Food Group, Burger King and the European Union Agency
-          for Asylum.
+          WhatsApp, AI, CRM and DevOps, delivered by one team for brands like Kout Food Group, Burger King and the
+          European Union Agency for Asylum.
         </p>
         <div data-f className="mt-10 flex flex-wrap gap-3">
           <Link href="/contact" className="btn btn-primary">
